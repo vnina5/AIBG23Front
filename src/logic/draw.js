@@ -7,6 +7,8 @@ import MapFrameURL from "../../gif/MapFrame.png";
 import TileBorderURL from "../../gif/TileBorder.png"
 import FullTileEntitiesURL from "../../gif/Tiles.png";
 import SkullURL from "../../gif/Skull.png";
+import TigerURL from "../../gif/Tiger.png";
+import StoneURL from "../../gif/Stone.png";
 
 
 // Slike =====================================================================================
@@ -17,6 +19,8 @@ let mapFrame = new Image();
 let tileBorder = new Image();
 let FullTileEntities = new Image();
 let skull = new Image();
+let tiger = new Image();
+let stone = new Image();
 
 players.src = PlayersURL;
 mapBase.src = MapBaseURL;
@@ -24,6 +28,8 @@ mapFrame.src = MapFrameURL;
 tileBorder.src =  TileBorderURL;
 FullTileEntities.src = FullTileEntitiesURL;
 skull.src = SkullURL;
+tiger.src = TigerURL;
+stone.src = StoneURL;
 
 
 // Dimenzije za Tajlove =====================================================================================
@@ -49,12 +55,10 @@ var i=44;
 const TileEntity = { // uzima delovi 1, drugi red kako to zna pitate se? ctrl f = 
     CHEST : { index: 0 },
     CLIFF : { index: 1 },
-    TIGER : { index: 2 },
-    STONE : { index: 3 },   
-    LEAVES : { index: 4 },
-    TreeFull : { index: 5 },    // nije udareno
-    TreeHalf : { index: 6 },    // udareno 1 put
-    TreeStump : { index: 7 },   // udareno 2 puta
+    LEAVES : { index: 2 },
+    TreeFull : { index: 3 },    // nije udareno
+    TreeHalf : { index: 4 },    // udareno 1 put
+    TreeStump : { index: 5 },   // udareno 2 puta
                                 // koliko god slicica da ima, samo dodati ovde i u drawTile
 };
 
@@ -74,6 +78,16 @@ export class Draw {
     movePlayer(player){
     }
 
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ TIGER ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // TODO: kako ce se iscrtavati, okretati levo desno, animacija udaranja, itd
+
+    // isto kao i player
+    drawRotatedTiger(tiger){
+    }
+    rotateTiger(tiger){
+    }
+    moveTiger(tiger){
+    }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAP ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -172,6 +186,40 @@ export class Draw {
     	);
 		ctx.restore();
   	}
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ATTACKS ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    // izmeniti?
+    drawAttackedTile(r,q){
+		var [x,y] = convertCoordinates(r, q);
+		
+		//console.log(x,y);
+		ctx.drawImage(
+        	FullTileEntities,
+        	0,
+			44,
+			44,
+			44,
+			x,
+			y,
+			44,
+			44
+    	); 
+	}
+
+    drawWhipAttack(player){
+    }
+
+    // Saber (sta god, mac ili sablja refaktorisati po potrebi)
+    drawSwordAttack(player){
+    }
+
+    drawTigerAttack(tiger){
+    }
+
+    // proslediti koordinate napada?
+    drawStoneAttack(stone){
+    }
 }
 
 // POMOCNE FUNKCIJE =====================================================================================
@@ -181,4 +229,91 @@ function convertCoordinates(r, q){
 	let x = 266 + (14+r)*19 + q*38;
 	let y = (14 + r)*33;
 	return [x,y];
+}
+
+
+// ~~~~~~~~~~~~~~ za sad neiskorisceno, posluzice ~~~~~~~~~~~~~~
+function calculateAngle(player){
+	if(Math.abs(player.angle - player.difAngle) > 2){
+		var speed = 3;
+		if(player.difAngle>=269 && player.angle<=91) {
+			if(player.difAngle>360) {
+				player.difAngle=player.difAngle-360;
+			}
+			player.difAngle = player.difAngle + speed;
+			return;
+		}
+		if(player.angle>=269 && player.difAngle<=91) {
+			if(player.difAngle<0) {
+				player.difAngle=360+player.difAngle;
+			}
+			player.difAngle = player.difAngle - speed;
+			return;
+		}		
+		if(player.angle > player.difAngle){
+			player.difAngle = player.difAngle + speed;
+			
+		} else player.difAngle = player.difAngle - speed;
+	} else player.rotated = true;
+}
+
+function calculateDifXY(player){
+	var speed = 1;
+
+	if(player.difX > 0){
+		if(player.coefXY <1){
+			player.difX = player.difX- player.coefXY*speed;
+		} else player.difX = player.difX- speed;
+	}
+	if(player.difX < 0){
+		if(player.coefXY <1){
+			player.difX = player.difX +  player.coefXY*speed;
+		} else player.difX = player.difX +  speed;
+	}
+	if(player.difY > 0 ){
+		if(player.coefXY >1){
+			player.difY = player.difY - player.coefXY*speed;
+		} else player.difY = player.difY - speed;
+		
+	}
+	if(player.difY < 0){
+		if(player.coefXY >1){
+			player.difY = player.difY + player.coefXY*speed;
+		} else player.difY = player.difY + speed;
+	}
+
+	if(player.difX == 0 && player.difY == 0){
+		player.moved = true;
+	}
+}
+
+function calculateDifLaserXY(player){
+	var speed = 8;
+
+	if(player.difLaserX > 0){
+		if(player.coefLaser <1){
+			player.difLaserX = player.difLaserX- player.coefLaser*speed;
+		} else player.difLaserX = player.difLaserX- speed;
+	}
+	if(player.difLaserX < 0){
+		if(player.coefLaser <1){
+			player.difLaserX = player.difLaserX +  player.coefLaser*speed;
+		} else player.difLaserX = player.difLaserX +  speed;
+	}
+	if(player.difLaserY > 0 ){
+		if(player.coefLaser >1){
+			player.difLaserY = player.difLaserY - player.coefLaser*speed;
+		} else player.difLaserY = player.difLaserY - speed;
+		
+	}
+	if(player.difLaserY < 0){
+		if(player.coefLaser >1){
+			player.difLaserY = player.difLaserY + player.coefLaser*speed;
+		} else player.difLaserY = player.difLaserY + speed;
+	}
+
+	if(player.difLaserX < speed && player.difLaserY <speed){
+		
+		player.laserDrawn = true;
+	}
 }
