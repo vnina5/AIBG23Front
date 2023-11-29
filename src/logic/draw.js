@@ -69,13 +69,74 @@ export class Draw {
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLAYER ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // TODO: kako ce se iscrtavati, okretati levo desno, animacija udaranja, itd
+    // TODO: isplanirati kako ce se iscrtavati, okretati levo desno, animacija udaranja, itd
 
+    // TODO: implementirati promene, za pocetak sam samo kopirala
     drawRotatedPlayer(player){
+        
+		if(player.rotated == false){
+			this.rotatePlayer(player);
+		}		
+		else if(player.moved == false){
+			this.movePlayer(player);
+		} else{
+
+			ctx.save();
+			ctx.translate(player.x+22,player.y+22);
+			ctx.rotate(player.angle*Math.PI/180);
+			ctx.drawImage(
+				players,		// what image
+				sPlayerW*player.index, //source image start crop
+				0,				// source image start crop
+				sPlayerW,		//source image width crop
+				sPlayerW,       // source image 
+				-22,
+				-22,
+				44,
+				44
+			)		
+			ctx.restore();	
+
+		}
     }
+
     rotatePlayer(player){
+        ctx.save();
+		ctx.translate(player.prevX+22,player.prevY+22);
+			ctx.rotate(player.difAngle*Math.PI/180);
+			ctx.drawImage(
+				players,		// what image
+				sPlayerW*player.index, //source image start crop
+				0,				// source image start crop
+				sPlayerW,		//source image width crop
+				sPlayerW,       // source image 
+				-22,
+				-22,
+				44,
+				44
+			)
+		ctx.restore();
+		calculateAngle(player);
     }
+
     movePlayer(player){
+        ctx.save();
+		ctx.translate(player.x - player.difX+22, player.y - player.difY+22);
+			ctx.rotate(player.angle*Math.PI/180);
+			ctx.drawImage(
+				players,		// what image
+				sPlayerW*player.index, //source image start crop
+				0,				// source image start crop
+				sPlayerW,		//source image width crop
+				sPlayerW,       // source image 
+				-22,
+				-22,
+				44,
+				44
+			)
+		
+		ctx.restore();	
+		calculateDifXY(player);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ TIGER ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -83,10 +144,68 @@ export class Draw {
 
     // isto kao i player
     drawRotatedTiger(tiger){
+		 
+		if(tiger.rotated == false){
+			this.rotateTiger(tiger);
+		}		
+		else if(tiger.moved == false){
+			this.moveTiger(tiger);
+		} else{
+			ctx.save();
+			ctx.translate(tiger.x+22,tiger.y+22);
+			ctx.rotate(tiger.angle*Math.PI/180);
+			ctx.drawImage(
+				tiger,		// what image
+				0, //source image start crop				// proveriti
+				0,				// source image start crop
+				stigerW,		//source image width crop
+				stigerW,       // source image 
+				-22,
+				-22,
+				44,
+				44
+			)		
+			ctx.restore();	
+		}
     }
+
     rotateTiger(tiger){
+		ctx.save();
+		ctx.translate(tiger.prevX+22,tiger.prevY+22);
+			ctx.rotate(tiger.difAngle*Math.PI/180);
+			ctx.drawImage(
+				tigers,		// what image
+				0, //source image start crop		// proveriti
+				0,				// source image start crop
+				stigerW,		//source image width crop
+				stigerW,       // source image 
+				-22,
+				-22,
+				44,
+				44
+			)
+		ctx.restore();
+		calculateAngle(tiger);
     }
+
     moveTiger(tiger){
+		ctx.save();
+		ctx.translate(tiger.x - tiger.difX+22, tiger.y - tiger.difY+22);
+			ctx.rotate(tiger.angle*Math.PI/180);
+			ctx.drawImage(
+				tigers,		// what image
+				0, //source image start crop		// proveriti
+				0,				// source image start crop
+				stigerW,		//source image width crop
+				stigerW,       // source image 
+				-22,
+				-22,
+				44,
+				44
+			)
+		
+		ctx.restore();	
+		calculateDifXY(tiger);
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAP ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -207,7 +326,29 @@ export class Draw {
     	); 
 	}
 
+    // proslogodisnji kod za laser, mozda ce posluziti
     drawWhipAttack(player){
+        // if(player.rotated == true){
+		// 	if(player.laserDrawn == false){
+		// 		ctx.beginPath();
+		// 		ctx.strokeStyle = "orange";
+		// 		ctx.lineWidth = 1;
+		// 		ctx.moveTo(player.x +22,player.y +22);
+		// 		ctx.lineTo(player.attackedX + 22 - player.difLaserX, player.attackedY + 22 - player.difLaserY);
+		// 		ctx.stroke();
+		// 		calculateDifLaserXY(player);
+		// 	} else{
+		// 		ctx.beginPath();
+		// 		ctx.strokeStyle = "orange";
+		// 		ctx.lineWidth = 1;
+		// 		ctx.moveTo(player.x +22,player.y +22);
+		// 		ctx.lineTo(player.attackedX + 22, player.attackedY + 22);
+		// 		ctx.stroke();
+		// 		calculateDifLaserXY(player);
+		// 	}
+		// 	if(player.laserDrawn == true)
+		// 		this.drawAttackedTile(player.attackedR, player.attackedQ);
+		// }	
     }
 
     // Saber (sta god, mac ili sablja refaktorisati po potrebi)
@@ -217,8 +358,16 @@ export class Draw {
     drawTigerAttack(tiger){
     }
 
+    // proslo godisnji kod za bossa, mozda ce posluziti
     // proslediti koordinate napada?
     drawStoneAttack(stone){
+		// var [endX, endY] = convertCoordinates(endR, endQ);	
+        // ctx.beginPath();
+		// ctx.strokeStyle = "red";
+		// ctx.lineWidth = 3;
+		// ctx.moveTo(550,535);
+		// ctx.lineTo(endX + 22, endY + 22);
+		// ctx.stroke();
     }
 }
 
