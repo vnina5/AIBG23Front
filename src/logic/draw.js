@@ -114,4 +114,71 @@ export class Draw {
 			429
 		)
 	}
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ TILES ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	// FULL - TREES, CHEST, TIGER, CLIFF, STONE
+    // NORMAL - NONE, LEAVES, SKULL
+
+    // Opsta funkcija:
+	drawTile(tile) {
+		var [x,y] = convertCoordinates(tile.r, tile.q);
+		let entity = tile.entity;
+		var entityType;
+
+        // crtamo sve osim praznih i lobanja
+        if(!(entity.type === 'EMPTY' || entity.type === 'SKULL')){	
+
+            // prilagodjavanje crtanju drveca	
+            if(entity.type === 'TREES'){
+                if(entity.health > 200){
+					entityType = TileEntity['TreeFull'];
+                }
+                if(entity.health >100 && entity.health <= 200){
+                    entityType = TileEntity['TreeHalf'];
+                }
+                if(entity.health <= 100 ){
+                    entityType = TileEntity['TreeStump'];
+                }
+            } else entityType = TileEntity[entity.type];
+
+            this.drawEntity(x, y, entityType.index);	
+		}
+        this.drawTileBorder(x,y);	
+	}
+
+    // za vezbu okvir tajla:
+	drawTileBorder(x,y){
+        ctx.drawImage(
+            tileBorder, 
+            x, 
+            y
+        );
+    }
+
+    // Ako ima entity poziva ovo:
+	drawEntity(x, y, indexOfEntityType){
+		ctx.save();
+		ctx.translate(x+22,y+22);           // centriramo: 22 je pola sirine i visine tile-a
+		ctx.drawImage(
+        	FullTileEntities,
+        	sTileW * indexOfEntityType,     // prosledjuje se TileEntity['nesto']
+			0, 
+			sTileW, 
+			sTileH,
+        	-22, 
+        	-22, 
+        	dTileW, 
+        	dTileH
+    	);
+		ctx.restore();
+  	}
+}
+
+// POMOCNE FUNKCIJE =====================================================================================
+
+// TODO: proveriti da li je ovo ok na nasem
+function convertCoordinates(r, q){
+	let x = 266 + (14+r)*19 + q*38;
+	let y = (14 + r)*33;
+	return [x,y];
 }
