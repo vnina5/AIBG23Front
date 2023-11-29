@@ -57,3 +57,61 @@ const TileEntity = { // uzima delovi 1, drugi red kako to zna pitate se? ctrl f 
     TreeStump : { index: 7 },   // udareno 2 puta
                                 // koliko god slicica da ima, samo dodati ovde i u drawTile
 };
+
+export class Draw {
+    //Klasika konstruktor:
+    constructor(ctx) {
+        window.ctx = ctx;
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLAYER ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // TODO: kako ce se iscrtavati, okretati levo desno, animacija udaranja, itd
+
+    drawRotatedPlayer(player){
+    }
+    rotatePlayer(player){
+    }
+    movePlayer(player){
+    }
+
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAP ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    // TODO: proveriti polozaj, jel nam se rotira pozadina? vrv ne -> obrisati
+    // Iscrtavanje podloge mape:
+	drawMapBase(){
+		ctx.save();
+		ctx.translate(551, 488);
+		ctx.rotate(angle1*Math.PI/180);
+		
+		ctx.drawImage(
+			mapBase,
+			-551,
+			-551
+		)
+		angle1 = angle1+0.02;
+		ctx.restore();
+	};
+
+    // TODO: proveriti polozaj
+	drawMapFrame(){
+		ctx.drawImage(
+			mapFrame,
+			-1,
+			-3
+		)
+
+	}
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ SKULL ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    // TODO: proveriti polozaj
+	// Iscrtavanje Boss-a:
+	drawSkull(){
+		ctx.drawImage(
+			skull,
+			492,
+			429
+		)
+	}
+}
