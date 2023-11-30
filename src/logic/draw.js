@@ -214,15 +214,15 @@ export class Draw {
     // Iscrtavanje podloge mape:
 	drawMapBase(){
 		ctx.save();
-		ctx.translate(551, 488);
-		ctx.rotate(angle1*Math.PI/180);
+		ctx.translate(551, 488);		// ?
+		// ctx.rotate(angle1*Math.PI/180);
 		
 		ctx.drawImage(
 			mapBase,
 			-551,
 			-551
 		)
-		angle1 = angle1+0.02;
+		// angle1 = angle1+0.02;
 		ctx.restore();
 	};
 
@@ -263,13 +263,13 @@ export class Draw {
 
             // prilagodjavanje crtanju drveca	
             if(entity.type === 'TREES'){
-                if(entity.health > 200){
+                if(entity.health > 300){
 					entityType = TileEntity['TreeFull'];
                 }
-                if(entity.health >100 && entity.health <= 200){
+                if(entity.health > 150 && entity.health <= 300){
                     entityType = TileEntity['TreeHalf'];
                 }
-                if(entity.health <= 100 ){
+                if(entity.health <= 150 ){
                     entityType = TileEntity['TreeStump'];
                 }
             } else entityType = TileEntity[entity.type];
