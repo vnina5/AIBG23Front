@@ -19,12 +19,14 @@
 header img{
     width: 100%;
     height: 100%;
+    padding-bottom: 10px;
+
 }
 
 body, html {
     position: relative;
     background-size:cover;
-    background-image: url("../gif/ScreenBackground.png");  
+    background-image: url("../gif/ScreenBackround3.gif");  
     width: 100%;
     height: 90vh;
 
