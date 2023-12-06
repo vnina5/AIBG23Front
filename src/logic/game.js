@@ -2,7 +2,7 @@
 import { Draw } from "./draw";
 import { Character } from "./character";
 import { API_ROOT } from "../configuration";
-// import { Timer } from "./timer";
+import { Timer } from "./timer";
 import { forEach } from "lodash";
 
 const numOfRows = 29;
@@ -19,9 +19,10 @@ export class Game {
     this.gameId = gameId;
     this.drawInstance = null;
     this.map = null;
+    this.skull = null;
     this.players = [];
     this.tiger = [];
-    this.attackedTiles = [];
+    this.stone = [];
     this.shouldDraw = true;
     this.firstRender = true;
     this.playerAttack = null;
@@ -58,8 +59,8 @@ export class Game {
     //Kupimo mapu:
     this.map = game.map.tiles;
     // this.bossAction = game.boss.bossAction;
-    // this.attackedTiles = game.boss.bossAttackedTiles;
-    //       this.turn = new Timer(turn);
+    this.attackedTiles = game.stone.attackedTiles;
+    this.turn = new Timer(turn);
     this.playerAttack = playerAttack;
     // Ubacujemo igrace:
     const Player1 = game.player1;
@@ -204,30 +205,14 @@ export class Game {
     }
     // Crtanje MapBase-a:
 
-    this.drawInstance.drawMapBase();
     this.drawInstance.drawMapFrame();
 
     // Crtanje tile-ova:
     drawTiles(this.map, this.drawInstance);
 
-    // Crtanje bica:
-    if (this.playerAttack != null) {
-      this.drawInstance.drawWhipAttack(
-        this.players[this.playerAttack.playerIdx - 1]
-      );
-    }
-    // Crtanje maca:
-    if (this.playerAttack != null) {
-      this.drawInstance.drawSwordAttack(
-        this.players[this.playerAttack.playerIdx - 1]
-      );
-    }
-    // Crtanje player-a:
-    for (let i = 0; i < 4; i++) {
-      if (this.players[i] != null) {
-        this.drawInstance.drawRotatedPlayer(this.players[i]);
-      }
-    }
+    // Crtanje lobanje:
+
+    this.drawInstance.drawSkull();
 
     // Crtanje tigra-a:   **koliko ima tigrova (2)
     for (let i = 0; i < 2; i++) {
@@ -236,14 +221,30 @@ export class Game {
       }
     }
 
-    // DODATI NAPAD TIGRA
-    // NISAM SIGURAN ZA MOVE PLAYER I MOVE TIGER STA TREBA
-    // KAKO FUNKCIONISE DRAWATTACKEDTILE POSTO JE PROSLE GODINE BILA VEZANA SAMO ZA BOSS-A
-    // MSM DA FALI DRAWSTONE, IMA SAMO DRAWSTONEATTACK
+    // Crtanje player-a:
+    for (let i = 0; i < 4; i++) {
+      if (this.players[i] != null) {
+        this.drawInstance.drawRotatedPlayer(this.players[i]);
+      }
+    }
 
-    // Crtanje lobanje:
+    // Crtanje tigra
 
-    this.drawInstance.drawSkull();
+    // for (let i = 0; i < 2; i++) {
+    //   if (this.tiger[i] != null) {
+    //     this.drawInstance.drawRotatedTiger(this.tiger[i]);
+    //   }
+    // }
+
+    // Crtanje i napad kamena
+
+    // this.attackedTiles.forEach((element) => {
+    //   this.drawInstance.drawStoneAttack(element);
+    // });
+
+    for (let i = 0; i < 2; i++) {
+      this.drawInstance.drawStone(this.stone[i]);
+    }
 
     if (this.shouldDraw || this.firstRender)
       requestAnimationFrame(this.draw.bind(this));
