@@ -38,7 +38,7 @@ const dTileW = 44;  // Skraceno od  - Destination Tile Width - Sirina tile-a na 
 const dTileH = 44;  // Skraceno od  - Destination Tile Height - Visina tile-a na canvasu
 const sTileW =  44; // Skraceno od  - Source Tile Width - Sirinu koju uzima od izvorne slike
 const sTileH =  44; // Skraceno od  - Source Tile Height - Visinu koju uzima od izvorne slike
-const sPlayerW =  44; 
+const sPlayerW = 44; 
 const sPlayerH = 44;
 
 var angle = 0; // rotacija entiteta
@@ -70,6 +70,10 @@ export class Draw {
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLAYER ~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // TODO: isplanirati kako ce se iscrtavati, okretati levo desno, animacija udaranja, itd
+
+	// proveriti da li ide levo ili desno i kojom nogom?
+	// proveriti da li ima bic ili mac i na osnovu toga birati crteze
+	// bez rotacija i translacija
 
     // TODO: implementirati promene, za pocetak sam samo kopirala
     drawRotatedPlayer(player){
@@ -247,10 +251,30 @@ export class Draw {
 			429
 		)
 	}
+
+
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ TILES ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	// FULL - TREES, CHEST, TIGER, CLIFF, STONE
     // NORMAL - NONE, LEAVES, SKULL
+
+	drawStone(stone){
+		var [x,y] = convertCoordinates(stone.r, stone.q);
+		ctx.drawImage(
+			stone,
+			x,
+			y
+		)
+	}
+	
+	// TODO: hardkodovano, proveriti polozaj
+	drawBrigde(){
+		ctx.drawImage(
+			bridge,
+			0,
+			0
+		)
+	}
 
     // Opsta funkcija:
 	drawTile(tile) {
