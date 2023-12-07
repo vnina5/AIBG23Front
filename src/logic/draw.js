@@ -1,36 +1,78 @@
 //Uploadovanje slika iz gif-a:
 
 // TODO: dodati slike u gif folder (ili drugi pa izmeniti putanju)
-import PlayersURL from "../../gif/Players.png";
-import MapBaseURL from "../../gif/MapBase.png";
-import MapFrameURL from "../../gif/MapFrame.png";
-import TileBorderURL from "../../gif/TileBorder.png"
-import FullTileEntitiesURL from "../../gif/Tiles.png";
-import SkullURL from "../../gif/Skull.png";
-import TigerURL from "../../gif/Tiger.png";
-import StoneURL from "../../gif/Stone.png";
+// import PlayersURL from "../../gif/Players.png";
+// import MapBaseURL from "../../gif/MapBase.png";
+// import FullTileEntitiesURL from "../../gif/Tiles.png";
+
+import MapFrameURL from "../../gif/mapFrame.png";
+import TileBorderURL from "../../gif/tileBorder.png"
+
+import WhiteSwordURL from "./whiteSword.png";
+import WhiteWhipURL from "./whiteWhip.png";
+import WhitePlayerURL from "./whitePlayer.png";
+
+import BlackSwordURL from "./blackSword.png";
+import BlackWhipURL from "./blackWhip.png";
+import BlackPlayerURL from "./blackPlayer.png";
+
+import PurpleSwordURL from "./purpleSword.png";
+import PurpleWhipURL from "./purpleWhip.png";
+import PurplePlayerURL from "./purplePlayer.png";
+
+import BlueSwordURL from "./blueSword.png";
+import BlueWhipURL from "./blueWhip.png";
+import BluePlayerURL from "./bluePlayer.png";
+
+import RipURL from "../../gif/rip.png";
+
+import allURL from "../../gif/all.png";
+
+import Tiger1URL from "../../gif/tiger1.png";
+import Tiger2URL from "../../gif/tiger2.png";
+// import TigerURL from "../../gif/tiger.png";
+
+import Fire1URL from "../../gif/fire1.png";
+import Fire2URL from "../../gif/fire2.png";
+
+import SkullURL from "../../gif/skull.png";
+
+import ClosedChestURL from "../../gif/closedChest.png";
+import OpenedChestURL from "../../gif/openedChest.png";
 
 
 // Slike =====================================================================================
 
-let players = new Image();	
-let mapBase = new Image();
-let mapFrame = new Image();
-let tileBorder = new Image();
-let FullTileEntities = new Image();
-let skull = new Image();
-let tiger = new Image();
-let stone = new Image();
+let mapFrame = new Image(); mapFrame.src = MapFrameURL;
+let tileBorder = new Image(); tileBorder.src = TileBorderURL;
 
-players.src = PlayersURL;
-mapBase.src = MapBaseURL;
-mapFrame.src = MapFrameURL;
-tileBorder.src =  TileBorderURL;
-FullTileEntities.src = FullTileEntitiesURL;
-skull.src = SkullURL;
-tiger.src = TigerURL;
-stone.src = StoneURL;
+let whiteSword = new Image(); whiteSword.src = WhiteSwordURL;
+let whiteWhip = new Image(); whiteWhip.src = WhiteWhipURL;
+let whitePlayer = new Image(); whitePlayer.src = WhitePlayerURL;
 
+let blackSword = new Image(); blackSword.src = BlackSwordURL;
+let blackWhip = new Image(); blackWhip.src = BlackWhipURL;
+let blackPlayer = new Image(); blackPlayer.src = BlackPlayerURL;
+
+let purpleSword = new Image(); purpleSword.src = PurpleSwordURL;
+let purpleWhip = new Image(); purpleWhip.src = PurpleWhipURL;
+let purplePlayer = new Image(); purplePlayer.src = PurplePlayerURL;
+
+let blueSword = new Image(); blueSword.src = BlueSwordURL;
+let blueWhip = new Image(); blueWhip.src = BlueWhipURL;
+let bluePlayer = new Image(); bluePlayer.src = BluePlayerURL;
+
+let ripImage = new Image(); ripImage.src = RipURL;
+
+let all = new Image(); all.src = allURL;
+let skull = new Image(); skull.src = SkullURL;
+let tiger1 = new Image(); tiger1.src = Tiger1URL;
+let tiger2 = new Image(); tiger2.src = Tiger2URL;
+let fire1 = new Image(); fire1.src = Fire1URL;
+let fire2 = new Image(); fire2.src = Fire2URL;
+
+let closedChest = new Image(); closedChest.src = ClosedChestURL;
+let openedChest = new Image(); openedChest.src = OpenedChestURL;
 
 // Dimenzije za Tajlove =====================================================================================
 const numOfRows = 29;
@@ -52,14 +94,38 @@ var i=44;
 
 // TODO: na osnovu slike izmeniti indekse, videti koliko faza drveca ima
 // iz slike Tiles.png (iz FullTileEntities)
-const TileEntity = { // uzima delovi 1, drugi red kako to zna pitate se? ctrl f = 
-    CHEST : { index: 0 },
-    CLIFF : { index: 1 },
-    LEAVES : { index: 2 },
-    TreeFull : { index: 3 },    // nije udareno
-    TreeHalf : { index: 4 },    // udareno 1 put
-    TreeStump : { index: 5 },   // udareno 2 puta
-                                // koliko god slicica da ima, samo dodati ovde i u drawTile
+const allI = { // uzima delovi 1, drugi red kako to zna pitate se? ctrl f = 
+    STUMPTREE : { index: 0 }, // udareno 2 puta
+	HALFTREE : { index: 1 },  // udareno 1 put
+	FULLTREE : { index: 2 },    // nije udareno
+	STONE : { index: 3 },
+	LEAVES : { index: 4 },
+	CLIFF : { index: 5 },
+};
+// TODO: NEDOSTAJE NAM CLIF SLIKA
+
+const chestI = {
+	purple : { index: 0 },
+	white : { index: 1 },
+	black : { index: 2 },
+	blue : { index: 3 },
+};
+
+const playerI = {
+	stand : { index: 0 },
+	move1 : { index: 1 },
+	move2 : { index: 2 },
+	attacked : { index: 3 },
+	dead : { index: 4 },
+};
+const swordI = {
+	one: { index: 0 },
+	two: { index: 1 },
+};
+
+const tigerI = {
+	one: { index: 0 },
+	two: { index: 1 },
 };
 
 export class Draw {
@@ -76,6 +142,7 @@ export class Draw {
 	// bez rotacija i translacija
 
     // TODO: implementirati promene, za pocetak sam samo kopirala
+	// napad ovde
     drawRotatedPlayer(player){
         
 		if(player.rotated == false){
@@ -142,6 +209,13 @@ export class Draw {
 		ctx.restore();	
 		calculateDifXY(player);
     }
+
+	// async function drawRipPlayer(player){
+	// 	ctx.drawImage(ripImage, player.x, player.y);
+	// 	await new Promise(resolve => setTimeout(resolve, 3000));
+	// 	ctx.clearRect(player.x, player.y, ripImage.width, ripImage.height);
+	// }
+
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ TIGER ~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // TODO: kako ce se iscrtavati, okretati levo desno, animacija udaranja, itd
@@ -214,21 +288,7 @@ export class Draw {
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAP ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    // TODO: proveriti polozaj, jel nam se rotira pozadina? vrv ne -> obrisati
-    // Iscrtavanje podloge mape:
-	drawMapBase(){
-		ctx.save();
-		ctx.translate(551, 488);		// ?
-		// ctx.rotate(angle1*Math.PI/180);
-		
-		ctx.drawImage(
-			mapBase,
-			-551,
-			-551
-		)
-		// angle1 = angle1+0.02;
-		ctx.restore();
-	};
+	// deleted drawMapBase()
 
     // TODO: proveriti polozaj
 	drawMapFrame(){
@@ -243,7 +303,7 @@ export class Draw {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ SKULL ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // TODO: proveriti polozaj
-	// Iscrtavanje Boss-a:
+	// Iscrtavanje lobanje:
 	drawSkull(){
 		ctx.drawImage(
 			skull,
@@ -258,48 +318,36 @@ export class Draw {
 	// FULL - TREES, CHEST, TIGER, CLIFF, STONE
     // NORMAL - NONE, LEAVES, SKULL
 
-	drawStone(stone){
-		var [x,y] = convertCoordinates(stone.r, stone.q);
-		ctx.drawImage(
-			stone,
-			x,
-			y
-		)
-	}
-	
-	// TODO: hardkodovano, proveriti polozaj
-	drawBrigde(){
-		ctx.drawImage(
-			bridge,
-			0,
-			0
-		)
-	}
-
     // Opsta funkcija:
 	drawTile(tile) {
 		var [x,y] = convertCoordinates(tile.r, tile.q);
 		let entity = tile.entity;
 		var entityType;
 
-        // crtamo sve osim praznih i lobanja
-        if(!(entity.type === 'EMPTY' || entity.type === 'SKULL')){	
+        // crtamo sve osim praznih, lobanja, tigrova
+        if(!(entity.type === 'EMPTY' || entity.type === 'NONE' || entity.type === 'SKULL' || entity.type === 'TIGER')){	
 
             // prilagodjavanje crtanju drveca	
             if(entity.type === 'TREES'){
                 if(entity.health > 300){
-					entityType = TileEntity['TreeFull'];
+					entityType = TileEntity['FULLTREE'];
                 }
                 if(entity.health > 150 && entity.health <= 300){
-                    entityType = TileEntity['TreeHalf'];
+                    entityType = TileEntity['HALFTREE'];
                 }
                 if(entity.health <= 150 ){
-                    entityType = TileEntity['TreeStump'];
+                    entityType = TileEntity['STUMPTREE'];
                 }
-            } else entityType = TileEntity[entity.type];
-
+            }	// todo: 
+			else if(entity.type === 'CHEST'){
+				drawChest(x,y,entity);
+				this.drawTileBorder(x,y);	
+				return;
+			}
+			
             this.drawEntity(x, y, entityType.index);	
 		}
+		
         this.drawTileBorder(x,y);	
 	}
 
@@ -313,12 +361,12 @@ export class Draw {
     }
 
     // Ako ima entity poziva ovo:
-	drawEntity(x, y, indexOfEntityType){
+	drawEntity(x, y, allI){
 		ctx.save();
 		ctx.translate(x+22,y+22);           // centriramo: 22 je pola sirine i visine tile-a
 		ctx.drawImage(
-        	FullTileEntities,
-        	sTileW * indexOfEntityType,     // prosledjuje se TileEntity['nesto']
+        	all,
+        	sTileW * allI,     // prosledjuje se TileEntity['nesto']
 			0, 
 			sTileW, 
 			sTileH,
@@ -329,10 +377,40 @@ export class Draw {
     	);
 		ctx.restore();
   	}
+	
+	  
+	// TODO: hardkodovano, proveriti polozaje
+	// 4 pa 2????????????????????????
+	drawBrigde(r, q){
+		ctx.drawImage(
+			bridge,
+			495,
+			433
+		)
+	}
 
+	// TODO: kako boje? kako dal je otvoren?
+	drawChest(x,y,entity){
+		if(entity.opened == false){
+			ctx.drawImage(
+				closedChest,
+				x,
+				y
+			)
+		} else{
+			ctx.drawImage(
+				openedChest,
+				x,
+				y
+			)
+		}
+	}
+
+	  
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ATTACKS ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // izmeniti?
+	// napraviti da pocrveni igrac i napraviti vatrice
     drawAttackedTile(r,q){
 		var [x,y] = convertCoordinates(r, q);
 		
