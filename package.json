@@ -5,9 +5,9 @@
   "main": "index.js",
 
   "scripts": {
-    "build": "parcel build index.html --public-url ./dist/",
-    "watch": "parcel index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "index.html start",
+    "build": "index.html build",
+    "watch": "index.html watch"
   },
   
   "repository": {

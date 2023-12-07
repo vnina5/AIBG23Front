@@ -15,8 +15,8 @@ export class Character{
         this.difX = 0;
 		this.difY = 0;
 		this.coefXY = 1;
-		this.angle = 0;
-		this.rotated = true;
+		this.directionR;
+		this.directionL;
 		this.moved = true;
 
 		this.name = Player.name;
@@ -26,15 +26,12 @@ export class Character{
 		this.power  = Player.power;
 		this.kills  = Player.kills;
 		this.score = Player.score;
+		this.sword = Player.sword;
 
         this.attackedQ = null;
 		this.attackedR = null;
 		this.attackedX = null;
 		this.attackedY = null;
-		this.difLaserX = 0;
-		this.difLaserY = 0;
-		this.coefLaser = 1;
-		this.whipDrawn = true;
 		this.setInfoBox();		
 
     }
@@ -47,19 +44,19 @@ export class Character{
 		this.power  = Player.power;
 		this.kills  = Player.kills;
 		this.score = Player.score;
+		this.skull = Player.skull;
 		this.setInfoBox();	
 		this.attackedQ =null;
 			this.attackedR = null;
 
 		// Prethodni potez:
 		var [playerX, playerY] = convertCoordinates(Player.r, Player.q);
-			
-// Slucaj kada se respawnovao ili otisao kroz portal:		
+					
 	
 // Slucaj kada se pomeri:
 	if( Player.q != this.q || Player.r != this.r){
 		this.moved = false;
-		this.rotated = false;
+		
 
 		this.prevQ = this.q;
 		this.prevR = this.r;
@@ -77,16 +74,33 @@ export class Character{
 			this.coefXY  = Math.abs(this.difX/this.difY);
 		} else this.coefXY = 1;
 
+
+		if(this.q > this.prevQ){
+			this.directionR = true;
+			this.directionL = false;
+		}else if(this.q < this.prevQ){
+			this.directionR = false;
+			this.directionL = true;
+		}else{
+			if(this.r < this.prevR){
+			this.directionR = true;
+			this.directionL = false;
+			}else{
+			this.directionR = true;
+			this.directionL = false;	
+			}
+		}
 		// Ugao za rotaciju:
-		this.difAngle = this.angle;
-		this.angle = find_angle(this.prevR, this.prevQ, this.r, this.q);	
+		// this.difAngle = this.angle;
+		// this.angle = find_angle(this.prevR, this.prevQ, this.r, this.q);	
 
 		// Resetovanje za laser jer se ne koristi:
-		this.difLaserX = 0;
-		this.difLaserY = 0;		
+		// this.difLaserX = 0;
+		// this.difLaserY = 0;		
 		
-// Slucaj kada baca laser:		
+// Slucaj kada napada:		
 	} else if(playerAttack != null && playerAttack.playerIdx == this.id){	
+			
 			this.prevQ = this.q;
 			this.prevR = this.r;
 			[this.prevX, this.prevY] = convertCoordinates(this.prevR, this.prevQ);
@@ -95,23 +109,41 @@ export class Character{
 			this.q = Player.q;             
 			this.r = Player.r;
 			[this.x, this.y] = convertCoordinates(this.r, this.q); 
-			// Ugao za rotaciju:
-			this.difAngle = this.angle;
-			this.attackedQ = playerAttack.q;
-			this.attackedR = playerAttack.r;
+			// // Ugao za rotaciju:
+			// this.difAngle = this.angle;
+			// this.attackedQ = playerAttack.q;
+			// this.attackedR = playerAttack.r;
 			
 			[this.attackedX, this.attackedY] = convertCoordinates(this.attackedR , this.attackedQ);
 			// console.log(this.attackedX, this.attackedY);
-			this.angle = find_angle(this.r, this.q, this.attackedR, this.attackedQ);			
-			this.difLaserX = this.attackedX - this.x;
-			this.difLaserY = this.attackedY - this.y;
-			if(this.difLaserX!=0  || this.difLaserY !=0){
-				this.coefLaser  = Math.abs(this.difLaserX/this.difLaserY);
-			} else this.coefLaser = 1;
+			// this.angle = find_angle(this.r, this.q, this.attackedR, this.attackedQ);			
+			// this.difLaserX = this.attackedX - this.x;
+			// this.difLaserY = this.attackedY - this.y;
+			// if(this.difLaserX!=0  || this.difLaserY !=0){
+			// 	this.coefLaser  = Math.abs(this.difLaserX/this.difLaserY);
+			// } else this.coefLaser = 1;
 
-			this.rotated = false;
+			if(this.q > this.prevQ){
+				this.directionR = true;
+				this.directionL = false;
+			}else if(this.q < this.prevQ){
+				this.directionR = false;
+				this.directionL = true;
+			}else{
+				if(this.r < this.prevR){
+				this.directionR = true;
+				this.directionL = false;
+				}else{
+				this.directionR = true;
+				this.directionL = false;	
+				}
+			}
+
+			// this.rotated = false;
 			this.moved = true;
-			this.laserDrawn = false;
+			// this.laserDrawn = false;
+			
+			
 		} 				
 	}
     setInfoBox() {
