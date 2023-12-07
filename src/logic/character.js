@@ -153,7 +153,7 @@ export class Character{
 		div.querySelector(".health").innerHTML = `${this.health}`;
         div.querySelector(".score").innerHTML = `${this.score}`;
 		div.querySelector(".skull").innerHTML = `${this.skull}`;
-        div.querySelector(".power").innerHTML = `${this.power}`;
+        div.querySelector(".power").innerHTML = `${this.attackPower}`;
 				
      }
 }

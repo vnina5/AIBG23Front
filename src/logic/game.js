@@ -19,14 +19,14 @@ export class Game {
     this.gameId = gameId;
     this.drawInstance = null;
     this.map = null;
-    // this.skullWin = null;
+    this.skullWin = null;
     this.players = [];
     this.tigers = [];
     this.stones = [];
     this.shouldDraw = true;
     this.firstRender = true;
     this.playerAttack = null;
-    // this.turn=null;
+    this.turn = null;
   }
 
   //inicijalizacija igrice - poziva se iz index.js
@@ -62,7 +62,9 @@ export class Game {
     this.tigers = game.tigers;
     // this.bossAction = game.boss.bossAction;
     // this.attackedTiles = game.stone.attackedTiles;
-    // this.turn = new TurnCountdown(turn);
+    this.turn = game.turn;
+    this.skullWin = game.skullWin;
+    this.turn = new TurnCountdown(this.turn, this.skullWin);
     this.playerAttack = playerAttack;
     // Ubacujemo igrace:
     const Player1 = game.player1;
@@ -106,15 +108,11 @@ export class Game {
           row[p].innerHTML = game.scoreBoard.players[i].score;
           p++;
         case 2:
+          row[p].innerHTML = game.scoreBoard.players[i].scoreLevel;
+          p++;
+        case 3:
           row[p].innerHTML = game.scoreBoard.players[i].health;
-          // p++;
           p=0;
-        // case 3:
-        //   row[p].innerHTML = game.scoreBoard.players[i].scoreLevel;
-        //   p++;
-        // case 4:
-        //   row[p].innerHTML = game.scoreBoard.players[i].attackPower;
-        //   p = 0;
       }
     }
     for (let i = 0; i < 3; i++) {
@@ -245,9 +243,9 @@ export class Game {
     //   this.drawInstance.drawStoneAttack(element);
     // });
 
-    for (let i = 0; i < 2; i++) {
-      this.drawInstance.drawStone(this.stones[i]);
-    }
+    // for (let i = 0; i < 2; i++) {                    // sad se crta kao tile
+    //   this.drawInstance.drawStone(this.stones[i]);
+    // }
 
     if (this.shouldDraw || this.firstRender)
       requestAnimationFrame(this.draw.bind(this));
