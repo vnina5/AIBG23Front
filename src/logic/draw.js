@@ -110,7 +110,7 @@ const allI = { // uzima delovi 1, drugi red kako to zna pitate se? ctrl f =
 	FULLTREE : { index: 2 },    // nije udareno
 	STONE : { index: 3 },
 	LEAVES : { index: 4 },
-	// CLIFF : { index: 5 },
+	CLIFF : { index: 5 },
 };
 // TODO: NEDOSTAJE NAM CLIF SLIKA
 
@@ -304,8 +304,8 @@ export class Draw {
 	drawMapFrame(){
 		ctx.drawImage(
 			mapFrame,
-			-1,
-			-3
+			0,
+			0
 		)
 
 	}
@@ -347,23 +347,24 @@ export class Draw {
             if(entity.type === 'TREES'){
 				this.drawTileBorder(x,y);	
 
-                // if(entity.health > 300){
-				// 	entityType = TileEntity['FULLTREE'];
-                // }
-                // if(entity.health > 150 && entity.health <= 300){
-                //     entityType = TileEntity['HALFTREE'];
-                // }
-                // if(entity.health <= 150 ){
-                //     entityType = TileEntity['STUMPTREE'];
-                // }
-            }	// todo: 
+                if(entity.health > 300){
+					entityType = allI['FULLTREE'];
+                }
+                if(entity.health > 150 && entity.health <= 300){
+                    entityType = allI['HALFTREE'];
+                }
+                if(entity.health <= 150 ){
+                    entityType = allI['STUMPTREE'];
+                }
+            }
 			else if(entity.type === 'CHEST'){
 				this.drawChest(x,y,entity);
 				this.drawTileBorder(x,y);	
 				return;
-			}
+			} 
+			else entityType = allI[entity.type];
 			
-            // this.drawEntity(x, y, entityType.index);	
+            this.drawEntity(x, y, entityType.index);	
 		}
 		
         this.drawTileBorder(x,y);	
@@ -380,22 +381,21 @@ export class Draw {
 
     // Ako ima entity poziva ovo:
 	drawEntity(x, y, allI){
-		ctx.save();
-		ctx.translate(x+22,y+22);           // centriramo: 22 je pola sirine i visine tile-a
+		// ctx.save();
+		// ctx.translate(x+22,y+22);           // centriramo: 22 je pola sirine i visine tile-a
 		ctx.drawImage(
         	all,
-        	sTileW * allI,     // prosledjuje se TileEntity['nesto']
+        	sTileW * allI,     // prosledjuje se allI['nesto']
 			0, 
 			sTileW, 
 			sTileH,
-        	-22, 
-        	-22, 
+        	x, // -22?
+        	y, // -22?
         	dTileW, 
         	dTileH
     	);
-		ctx.restore();
+		// ctx.restore();
   	}
-	
 	  
 	// 4 pa 2
 	drawBrigde(r, q){

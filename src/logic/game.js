@@ -245,9 +245,9 @@ export class Game {
     //   this.drawInstance.drawStoneAttack(element);
     // });
 
-    for (let i = 0; i < 2; i++) {
-      this.drawInstance.drawStone(this.stones[i]);
-    }
+    // for (let i = 0; i < 2; i++) {                    // sad se crta kao tile
+    //   this.drawInstance.drawStone(this.stones[i]);
+    // }
 
     if (this.shouldDraw || this.firstRender)
       requestAnimationFrame(this.draw.bind(this));
