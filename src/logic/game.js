@@ -2,7 +2,7 @@
 import { Draw } from "./draw";
 import { Character } from "./character";
 import { API_ROOT } from "../configuration";
-// import { TurnCountdown } from "./timer";
+import { TurnCountdown } from "./timer";
 import { forEach } from "lodash";
 
 const numOfRows = 29;
