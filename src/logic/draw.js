@@ -40,8 +40,11 @@ import Fire2URL from "../../gif/fire2.png";
 
 import SkullURL from "../../gif/skull.png";
 
+// probati closedChest closedChest2 closedChest3
 import ClosedChestURL from "../../gif/closedChest.png";
 import OpenedChestURL from "../../gif/openedChest.png";
+
+import CLiffURL from "../../gif/cliff.svg";
 
 
 // Slike =====================================================================================
@@ -79,6 +82,8 @@ let fire2 = new Image(); fire2.src = Fire2URL;
 let closedChest = new Image(); closedChest.src = ClosedChestURL;
 let openedChest = new Image(); openedChest.src = OpenedChestURL;
 
+let cliff = new Image(); cliff.src = CLiffURL;
+
 // Dimenzije za Tajlove =====================================================================================
 const numOfRows = 29;
 const dTileW = 44;  // Skraceno od  - Destination Tile Width - Sirina tile-a na canvasu
@@ -109,12 +114,12 @@ const allI = { // uzima delovi 1, drugi red kako to zna pitate se? ctrl f =
 };
 // TODO: NEDOSTAJE NAM CLIF SLIKA
 
-const chestI = {
-	purple : { index: 0 },
-	white : { index: 1 },
-	black : { index: 2 },
-	blue : { index: 3 },
-};
+// const chestI = {
+// 	purple : { index: 0 },
+// 	white : { index: 1 },
+// 	black : { index: 2 },
+// 	blue : { index: 3 },
+// };
 
 const playerI = {
 	stand : { index: 0 },
@@ -299,8 +304,8 @@ export class Draw {
 	drawMapFrame(){
 		ctx.drawImage(
 			mapFrame,
-			-1,
-			-3
+			0,
+			0
 		)
 
 	}
@@ -336,29 +341,30 @@ export class Draw {
 		var entityType;
 
         // crtamo sve osim praznih, lobanja, tigrova
-        if(!(entity.type === 'EMPTY' || entity.type === 'NONE' || entity.type === 'SKULL' || entity.type === 'TIGER')){	
+        if(!(entity.type === 'NONE' || entity.type === 'SKULL' || entity.type === 'TIGER')){	
 
             // prilagodjavanje crtanju drveca	
             if(entity.type === 'TREES'){
 				this.drawTileBorder(x,y);	
 
-                // if(entity.health > 300){
-				// 	entityType = TileEntity['FULLTREE'];
-                // }
-                // if(entity.health > 150 && entity.health <= 300){
-                //     entityType = TileEntity['HALFTREE'];
-                // }
-                // if(entity.health <= 150 ){
-                //     entityType = TileEntity['STUMPTREE'];
-                // }
-            }	// todo: 
+                if(entity.health > 300){
+					entityType = allI['FULLTREE'];
+                }
+                if(entity.health > 150 && entity.health <= 300){
+                    entityType = allI['HALFTREE'];
+                }
+                if(entity.health <= 150 ){
+                    entityType = allI['STUMPTREE'];
+                }
+            }
 			else if(entity.type === 'CHEST'){
 				this.drawChest(x,y,entity);
 				this.drawTileBorder(x,y);	
 				return;
-			}
+			} 
+			else entityType = allI[entity.type];
 			
-            // this.drawEntity(x, y, entityType.index);	
+            this.drawEntity(x, y, entityType.index);	
 		}
 		
         this.drawTileBorder(x,y);	
@@ -375,46 +381,56 @@ export class Draw {
 
     // Ako ima entity poziva ovo:
 	drawEntity(x, y, allI){
-		ctx.save();
-		ctx.translate(x+22,y+22);           // centriramo: 22 je pola sirine i visine tile-a
+		// ctx.save();
+		// ctx.translate(x+22,y+22);           // centriramo: 22 je pola sirine i visine tile-a
 		ctx.drawImage(
         	all,
-        	sTileW * allI,     // prosledjuje se TileEntity['nesto']
+        	sTileW * allI,     // prosledjuje se allI['nesto']
 			0, 
 			sTileW, 
 			sTileH,
-        	-22, 
-        	-22, 
+        	x, // -22?
+        	y, // -22?
         	dTileW, 
         	dTileH
     	);
-		ctx.restore();
+		// ctx.restore();
   	}
-	
 	  
-	// TODO: hardkodovano, proveriti polozaje
-	// 4 pa 2????????????????????????
+	// 4 pa 2
 	drawBrigde(r, q){
+		var [x,y] = convertCoordinates(r, q);
 		ctx.drawImage(
 			bridge,
-			495,
-			433
+			x,
+			y
 		)
 	}
 
-	// TODO: kako boje? kako dal je otvoren?
 	drawChest(x,y,entity){
 		if(entity.taken == false){
 			ctx.drawImage(
 				closedChest,
+				sTileW * entity.idx,	 
+				0,						
+				sTileW,
+				sTileH,    
 				x,
-				y
+				y,
+				dTileW,
+				dTileH
 			)
 		} else{
 			ctx.drawImage(
 				openedChest,
+				sTileW * entity.idx,	 
+				0,						
+				sTileW,
+				sTileH,    
 				x,
-				y
+				y,
+				dTileW,
+				dTileH
 			)
 		}
 	}
