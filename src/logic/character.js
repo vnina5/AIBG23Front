@@ -20,10 +20,10 @@ export class Character{
 		this.moved = true;
 
 		this.name = Player.name;
-		this.level  = Player.level;
+		this.scoreLevel  = Player.scoreLevel;
 		this.health = Player.health;
         this.skull = Player.skull;
-		this.power  = Player.power;
+		this.attackPower  = Player.attackPower;
 		this.kills  = Player.kills;
 		this.score = Player.score;
 		this.sword = Player.sword;

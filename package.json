@@ -2,14 +2,7 @@
   "name": "aibg23front",
   "version": "1.0.0",
   "description": "Frontend application",
-  "main": "index.js",
-
-  "scripts": {
-    "start": "index.html start",
-    "build": "index.html build",
-    "watch": "index.html watch"
-  },
-  
+ 
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vnina5/AIBG23Front.git"
@@ -22,10 +15,20 @@
   },
 
   "dependencies": {
-    "knockout": "^3.5.1",
     "jquery": "^3.6.1",
+    "knockout": "^3.5.1",
     "lodash": "^4.17.21",
+    "parcel": "^2.10.3",
     "popper.js": "^1.14.6",
     "qs": "^6.11.2"
+  },
+
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  },
+  
+  "scripts": {
+    "build": "parcel build index.html",
+    "watch": "parcel index.html"
   }
 }

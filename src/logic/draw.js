@@ -1,28 +1,29 @@
 //Uploadovanje slika iz gif-a:
 
 // TODO: dodati slike u gif folder (ili drugi pa izmeniti putanju)
-// import PlayersURL from "../../gif/Players.png";
+import PlayersURL from "../../gif/Players.png";
 // import MapBaseURL from "../../gif/MapBase.png";
 // import FullTileEntitiesURL from "../../gif/Tiles.png";
 
 import MapFrameURL from "../../gif/mapFrame.png";
 import TileBorderURL from "../../gif/tileBorder.png"
 
-import WhiteSwordURL from "./whiteSword.png";
-import WhiteWhipURL from "./whiteWhip.png";
-import WhitePlayerURL from "./whitePlayer.png";
+// import WhiteSwordURL from "./whiteSword.png";
+import WhiteSwordURL from "../../gif/whiteSword.png";
+import WhiteWhipURL from "../../gif/whiteWhip.png";
+import WhitePlayerURL from "../../gif/whiteWalk.png";
 
-import BlackSwordURL from "./blackSword.png";
-import BlackWhipURL from "./blackWhip.png";
-import BlackPlayerURL from "./blackPlayer.png";
+import BlackSwordURL from "../../gif/blackSword.png";
+import BlackWhipURL from "../../gif/BlackWhip.png";
+import BlackPlayerURL from "../../gif/BlackWalk.png";
 
-import PurpleSwordURL from "./purpleSword.png";
-import PurpleWhipURL from "./purpleWhip.png";
-import PurplePlayerURL from "./purplePlayer.png";
+import PurpleSwordURL from "../../gif/purpleSword.png";
+import PurpleWhipURL from "../../gif/purpleWhip.png";
+import PurplePlayerURL from "../../gif/purpleWalk.png";
 
-import BlueSwordURL from "./blueSword.png";
-import BlueWhipURL from "./blueWhip.png";
-import BluePlayerURL from "./bluePlayer.png";
+import BlueSwordURL from "../../gif/blueSword.png";
+import BlueWhipURL from "../../gif/blueWhip.png";
+import BluePlayerURL from "../../gif/blueWalk.png";
 
 import RipURL from "../../gif/rip.png";
 
@@ -31,6 +32,8 @@ import allURL from "../../gif/all.png";
 import Tiger1URL from "../../gif/tiger1.png";
 import Tiger2URL from "../../gif/tiger2.png";
 // import TigerURL from "../../gif/tiger.png";
+
+import StoneURL from "../../gif/stone.svg";
 
 import Fire1URL from "../../gif/fire1.png";
 import Fire2URL from "../../gif/fire2.png";
@@ -42,6 +45,7 @@ import OpenedChestURL from "../../gif/openedChest.png";
 
 
 // Slike =====================================================================================
+let players = new Image();	players.src = PlayersURL;
 
 let mapFrame = new Image(); mapFrame.src = MapFrameURL;
 let tileBorder = new Image(); tileBorder.src = TileBorderURL;
@@ -68,6 +72,7 @@ let all = new Image(); all.src = allURL;
 let skull = new Image(); skull.src = SkullURL;
 let tiger1 = new Image(); tiger1.src = Tiger1URL;
 let tiger2 = new Image(); tiger2.src = Tiger2URL;
+let stone = new Image(); stone.src = StoneURL;
 let fire1 = new Image(); fire1.src = Fire1URL;
 let fire2 = new Image(); fire2.src = Fire2URL;
 
@@ -233,7 +238,7 @@ export class Draw {
 			ctx.translate(tiger.x+22,tiger.y+22);
 			ctx.rotate(tiger.angle*Math.PI/180);
 			ctx.drawImage(
-				tiger,		// what image
+				tiger1,		// what image
 				0, //source image start crop				// proveriti
 				0,				// source image start crop
 				stigerW,		//source image width crop
@@ -252,7 +257,7 @@ export class Draw {
 		ctx.translate(tiger.prevX+22,tiger.prevY+22);
 			ctx.rotate(tiger.difAngle*Math.PI/180);
 			ctx.drawImage(
-				tigers,		// what image
+				tiger1,		// what image
 				0, //source image start crop		// proveriti
 				0,				// source image start crop
 				stigerW,		//source image width crop
@@ -271,7 +276,7 @@ export class Draw {
 		ctx.translate(tiger.x - tiger.difX+22, tiger.y - tiger.difY+22);
 			ctx.rotate(tiger.angle*Math.PI/180);
 			ctx.drawImage(
-				tigers,		// what image
+				tiger2,		// what image
 				0, //source image start crop		// proveriti
 				0,				// source image start crop
 				stigerW,		//source image width crop
@@ -305,10 +310,16 @@ export class Draw {
     // TODO: proveriti polozaj
 	// Iscrtavanje lobanje:
 	drawSkull(){
+		var [x,y] = convertCoordinates(0, 0);
+
 		ctx.drawImage(
 			skull,
-			492,
-			429
+			x,
+			y,
+			44,
+			44
+			// 492,
+			// 429
 		)
 	}
 
@@ -329,23 +340,25 @@ export class Draw {
 
             // prilagodjavanje crtanju drveca	
             if(entity.type === 'TREES'){
-                if(entity.health > 300){
-					entityType = TileEntity['FULLTREE'];
-                }
-                if(entity.health > 150 && entity.health <= 300){
-                    entityType = TileEntity['HALFTREE'];
-                }
-                if(entity.health <= 150 ){
-                    entityType = TileEntity['STUMPTREE'];
-                }
+				this.drawTileBorder(x,y);	
+
+                // if(entity.health > 300){
+				// 	entityType = TileEntity['FULLTREE'];
+                // }
+                // if(entity.health > 150 && entity.health <= 300){
+                //     entityType = TileEntity['HALFTREE'];
+                // }
+                // if(entity.health <= 150 ){
+                //     entityType = TileEntity['STUMPTREE'];
+                // }
             }	// todo: 
 			else if(entity.type === 'CHEST'){
-				drawChest(x,y,entity);
+				this.drawChest(x,y,entity);
 				this.drawTileBorder(x,y);	
 				return;
 			}
 			
-            this.drawEntity(x, y, entityType.index);	
+            // this.drawEntity(x, y, entityType.index);	
 		}
 		
         this.drawTileBorder(x,y);	
@@ -391,7 +404,7 @@ export class Draw {
 
 	// TODO: kako boje? kako dal je otvoren?
 	drawChest(x,y,entity){
-		if(entity.opened == false){
+		if(entity.taken == false){
 			ctx.drawImage(
 				closedChest,
 				x,
@@ -471,6 +484,17 @@ export class Draw {
 		// ctx.lineTo(endX + 22, endY + 22);
 		// ctx.stroke();
     }
+
+	drawStone(stoneTile){
+		var [x,y] = convertCoordinates(0, -8);
+		ctx.drawImage(
+			stone,
+			x,
+			y,
+			44,
+			44
+		)
+	}
 }
 
 // POMOCNE FUNKCIJE =====================================================================================

@@ -1,5 +1,5 @@
 import qs from 'qs';
-// import { Game } from "./logic/game"; 
+import { Game } from "./logic/game"; 
 import { WebsocketHandler } from  "./socket/ws"; //  ovo sa serverom komunicira
 import { API_ROOT } from './configuration'; // lokalno 
 

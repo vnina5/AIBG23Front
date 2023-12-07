@@ -2,7 +2,7 @@
 import { Draw } from "./draw";
 import { Character } from "./character";
 import { API_ROOT } from "../configuration";
-import { Timer } from "./timer";
+import { TurnCountdown } from "./timer";
 import { forEach } from "lodash";
 
 const numOfRows = 29;
@@ -19,10 +19,10 @@ export class Game {
     this.gameId = gameId;
     this.drawInstance = null;
     this.map = null;
-    this.skull = null;
+    // this.skullWin = null;
     this.players = [];
-    this.tiger = [];
-    this.stone = [];
+    this.tigers = [];
+    this.stones = [];
     this.shouldDraw = true;
     this.firstRender = true;
     this.playerAttack = null;
@@ -58,9 +58,11 @@ export class Game {
 
     //Kupimo mapu:
     this.map = game.map.tiles;
+    this.stones = game.stones;
+    this.tigers = game.tigers;
     // this.bossAction = game.boss.bossAction;
-    this.attackedTiles = game.stone.attackedTiles;
-    this.turn = new Timer(turn);
+    // this.attackedTiles = game.stone.attackedTiles;
+    // this.turn = new TurnCountdown(turn);
     this.playerAttack = playerAttack;
     // Ubacujemo igrace:
     const Player1 = game.player1;
@@ -101,17 +103,18 @@ export class Game {
           row[p].innerHTML = game.scoreBoard.players[i].name;
           p++;
         case 1:
-          row[p].innerHTML = game.scoreBoard.players[i].kills;
+          row[p].innerHTML = game.scoreBoard.players[i].score;
           p++;
         case 2:
-          row[p].innerHTML = game.scoreBoard.players[i].deaths;
-          p++;
-        case 3:
-          row[p].innerHTML = game.scoreBoard.players[i].kd;
-          p++;
-        case 4:
-          row[p].innerHTML = game.scoreBoard.players[i].score;
-          p = 0;
+          row[p].innerHTML = game.scoreBoard.players[i].health;
+          // p++;
+          p=0;
+        // case 3:
+        //   row[p].innerHTML = game.scoreBoard.players[i].scoreLevel;
+        //   p++;
+        // case 4:
+        //   row[p].innerHTML = game.scoreBoard.players[i].attackPower;
+        //   p = 0;
       }
     }
     for (let i = 0; i < 3; i++) {
@@ -215,11 +218,11 @@ export class Game {
     this.drawInstance.drawSkull();
 
     // Crtanje tigra-a:   **koliko ima tigrova (2)
-    for (let i = 0; i < 2; i++) {
-      if (this.tiger[i] != null) {
-        this.drawInstance.drawRotatedTiger(this.tiger[i]);
-      }
-    }
+    // for (let i = 10; i < 12; i++) {
+    //   if (this.tigers[i] != null) {
+    //     this.drawInstance.drawRotatedTiger(this.tigers[i]);
+    //   }
+    // }
 
     // Crtanje player-a:
     for (let i = 0; i < 4; i++) {
@@ -243,7 +246,7 @@ export class Game {
     // });
 
     for (let i = 0; i < 2; i++) {
-      this.drawInstance.drawStone(this.stone[i]);
+      this.drawInstance.drawStone(this.stones[i]);
     }
 
     if (this.shouldDraw || this.firstRender)
