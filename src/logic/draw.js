@@ -573,7 +573,7 @@ export class Draw {
 		
 		//console.log(x,y);
 		ctx.drawImage(
-        	FullTileEntities,
+        	fire1,
         	0,
 			44,
 			44,
@@ -622,7 +622,7 @@ export class Draw {
     drawStoneAttack(stone){
 		length = stone.attackedTiles.size()
 		for (i = 0; i < length; i++){
-			drawFire(stone.attackedTiles[i]);
+			this.drawAttackedTile(stone.attackedTiles[i]);
 		}
 		// attackedTiles
 		// var [endX, endY] = convertCoordinates(endR, endQ);	
@@ -634,8 +634,8 @@ export class Draw {
 		// ctx.stroke();
     }
 
-	drawFire(tile){
-		var [x,y] = convertCoordinates(tile.r, tile.q);
+	drawFire(r,q){
+		// var [x,y] = convertCoordinates(tile.r, tile.q);
 		ctx.drawImage(
 			fire1,
 			x,

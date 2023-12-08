@@ -243,9 +243,9 @@ export class Game {
     //   this.drawInstance.drawStoneAttack(element);
     // });
 
-    for (let i = 0; i < 2; i++) {                    // za napad
-      this.drawInstance.drawStoneAttack(this.stone[i]);
-    }
+    // for (let i = 0; i < 2; i++) {                    // za napad
+    //   this.drawInstance.drawStoneAttack(this.stones[i]);
+    // }
 
     if (this.shouldDraw || this.firstRender)
       requestAnimationFrame(this.draw.bind(this));
