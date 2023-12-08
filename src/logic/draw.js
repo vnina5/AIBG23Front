@@ -417,9 +417,22 @@ export class Draw {
 
     // TODO: proveriti polozaj
 	drawMapFrame(){
+    	// Clear the entire canvas
+   	 	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
 		ctx.drawImage(
 			mapFrame,
-			-3,
+			-4,
+			-6
+		)
+		ctx.drawImage(
+			mapFrame,
+			-4,
+			-6
+		)
+		ctx.drawImage(
+			mapFrame,
+			-4,
 			-6
 		)
 
@@ -607,6 +620,11 @@ export class Draw {
     // proslo godisnji kod za bossa, mozda ce posluziti
     // proslediti koordinate napada?
     drawStoneAttack(stone){
+		length = stone.attackedTiles.size()
+		for (i = 0; i < length; i++){
+			drawFire(stone.attackedTiles[i]);
+		}
+		// attackedTiles
 		// var [endX, endY] = convertCoordinates(endR, endQ);	
         // ctx.beginPath();
 		// ctx.strokeStyle = "red";
@@ -616,16 +634,25 @@ export class Draw {
 		// ctx.stroke();
     }
 
-	drawStone(stoneTile){
-		var [x,y] = convertCoordinates(0, -8);
+	drawFire(tile){
+		var [x,y] = convertCoordinates(tile.r, tile.q);
 		ctx.drawImage(
-			stone,
+			fire1,
 			x,
-			y,
-			44,
-			44
+			y
 		)
 	}
+
+	// drawStone(stoneTile){
+	// 	var [x,y] = convertCoordinates(0, -8);
+	// 	ctx.drawImage(
+	// 		stone,
+	// 		x,
+	// 		y,
+	// 		44,
+	// 		44
+	// 	)
+	// }
 }
 
 // POMOCNE FUNKCIJE =====================================================================================
