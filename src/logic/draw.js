@@ -10,25 +10,30 @@ import Players2URL from "../../gif/Player2/PlayerIdle2.png";
 import Players3URL from "../../gif/Player3/PlayerIdle3.png";
 import Players4URL from "../../gif/Player4/PlayerIdleR4.png";
 
+import PlayersWalk1URL from "../../gif/Player1/PlayerWalk11.png";
+import PlayersWalk2URL from "../../gif/Player2/PlayerWalk12.png";
+import PlayersWalk3URL from "../../gif/Player3/PlayerWalk13.png";
+import PlayersWalk4URL from "../../gif/Player4/PlayerWalk14.png";
+
 
 import MapFrameURL from "../../gif/mapFrame.png";
 import TileBorderURL from "../../gif/tileBorder.png"
 
-// import WhiteSwordURL from "./whiteSword.png";
 import WhiteSwordURL from "../../gif/whiteSword.png";
-import WhiteWhipURL from "../../gif/whiteWhip.png";
+import Players1SwordURL from "../../gif/whiteSword.png";
+import Players1WhipURL from "../../gif/whiteWhip.png";
 import WhitePlayerURL from "../../gif/whiteWalk.png";
 
-import BlackSwordURL from "../../gif/blackSword.png";
-import BlackWhipURL from "../../gif/BlackWhip.png";
+import Players3SwordURL from "../../gif/blackSword.png";
+import Players3WhipURL from "../../gif/BlackWhip.png";
 import BlackPlayerURL from "../../gif/BlackWalk.png";
 
-import PurpleSwordURL from "../../gif/purpleSword.png";
-import PurpleWhipURL from "../../gif/purpleWhip.png";
+import Players2SwordURL from "../../gif/purpleSword.png";
+import Players2WhipURL from "../../gif/purpleWhip.png";
 import PurplePlayerURL from "../../gif/purpleWalk.png";
 
-import BlueSwordURL from "../../gif/blueSword.png";
-import BlueWhipURL from "../../gif/blueWhip.png";
+import Players4SwordURL from "../../gif/blueSword.png";
+import Players4WhipURL from "../../gif/blueWhip.png";
 import BluePlayerURL from "../../gif/blueWalk.png";
 
 import RipURL from "../../gif/rip.png";
@@ -64,9 +69,41 @@ players2.src = Players2URL;
 players3.src = Players3URL;
 players4.src = Players4URL;
 
+let playersW1 = new Image();	
+let playersW2 = new Image();	
+let playersW3 = new Image();	
+let playersW4 = new Image();	
+
+playersW1.src = PlayersWalk1URL;
+playersW2.src = PlayersWalk2URL;
+playersW3.src = PlayersWalk3URL;
+playersW4.src = PlayersWalk4URL;
+
+
+
+let playersWhipAttack1 = new Image();	
+let playersWhipAttack2 = new Image();	
+let playersWhipAttack3 = new Image();	
+let playersWhipAttack4 = new Image();	
+
+playersWhipAttack1.src = Players1WhipURL;
+playersWhipAttack2.src = Players2WhipURL;
+playersWhipAttack3.src = Players3WhipURL;
+playersWhipAttack4.src = Players4WhipURL;
+
+let playersSwordpAttack1 = new Image();	
+let playersSwordpAttack2 = new Image();	
+let playersSwordpAttack3 = new Image();	
+let playersSwordpAttack4 = new Image();	
+
+playersSwordpAttack1.src = Players1SwordURL;
+playersSwordpAttack2.src = Players2SwordURL;
+playersSwordpAttack3.src = Players3SwordURL;
+playersSwordpAttack4.src = Players4SwordURL;
+
 let mapFrame = new Image(); mapFrame.src = MapFrameURL;
 let tileBorder = new Image(); tileBorder.src = TileBorderURL;
-
+/*
 let whiteSword = new Image(); whiteSword.src = WhiteSwordURL;
 let whiteWhip = new Image(); whiteWhip.src = WhiteWhipURL;
 let whitePlayer = new Image(); whitePlayer.src = WhitePlayerURL;
@@ -82,7 +119,7 @@ let purplePlayer = new Image(); purplePlayer.src = PurplePlayerURL;
 let blueSword = new Image(); blueSword.src = BlueSwordURL;
 let blueWhip = new Image(); blueWhip.src = BlueWhipURL;
 let bluePlayer = new Image(); bluePlayer.src = BluePlayerURL;
-
+*/
 let ripImage = new Image(); ripImage.src = RipURL;
 
 let all = new Image(); all.src = allURL;
@@ -294,19 +331,19 @@ export class Draw {
 			let currentPlayerImage;
 			switch (player.index+1) {
                 case 1:
-                    currentPlayerImage = players1;
+                    currentPlayerImage = playersW1;
                     break;
                 case 2:
-                    currentPlayerImage = players2;
+                    currentPlayerImage = playersW2;
                     break;
                 case 3:
-                    currentPlayerImage = players3;
+                    currentPlayerImage = playersW3;
                     break;
                 case 4:
-                    currentPlayerImage = players4;
+                    currentPlayerImage = playersW4;
                     break;
                 default:
-                    currentPlayerImage = players1; // Set a default image
+                    currentPlayerImage = playersW1; // Set a default image
                     break;
             }
 			// Check the direction the player is facing
@@ -574,6 +611,54 @@ export class Draw {
 
     // proslogodisnji kod za laser, mozda ce posluziti
     drawWhipAttack(player){
+		if(player.sword)
+			return;
+			ctx.save();
+			ctx.translate(player.x + 22, player.y + 22);
+			ctx.rotate(player.angle * Math.PI / 180);
+
+			let currentPlayerImage;
+			switch (player.index+1) {
+                case 1:
+                    currentPlayerImage = playersWhipAttack1;
+                    break;
+                case 2:
+                    currentPlayerImage = playersWhipAttack2;
+                    break;
+                case 3:
+                    currentPlayerImage = playersWhipAttack3;
+                    break;
+                case 4:
+                    currentPlayerImage = playersWhipAttack4;
+                    break;
+                default:
+                    currentPlayerImage = playersWhipAttack1; // Set a default image
+                    break;
+            }
+			// Check the direction the player is facing
+		if (player.directionR) {
+			// Draw the image normally (no flipping) if facing right
+			ctx.drawImage(
+				currentPlayerImage,
+				-10,
+				-22,
+				20,
+				44
+			);
+		} else {
+			// Flip the image horizontally using scale if facing left
+			ctx.scale(-1, 1);
+			ctx.drawImage(
+				currentPlayerImage,
+				-10,
+				-22,
+				20,
+				44
+			);
+		}
+			
+		
+			ctx.restore();
         // if(player.rotated == true){
 		// 	if(player.laserDrawn == false){
 		// 		ctx.beginPath();
@@ -599,6 +684,52 @@ export class Draw {
 
     // Saber (sta god, mac ili sablja refaktorisati po potrebi)
     drawSwordAttack(player){
+		ctx.save();
+			ctx.translate(player.x + 22, player.y + 22);
+			ctx.rotate(player.angle * Math.PI / 180);
+
+			let currentPlayerImage;
+			switch (player.index+1) {
+                case 1:
+                    currentPlayerImage = playersSwordpAttack1;
+                    break;
+                case 2:
+                    currentPlayerImage = playersSwordpAttack2;
+                    break;
+                case 3:
+                    currentPlayerImage = playersSwordpAttack3;
+                    break;
+                case 4:
+                    currentPlayerImage = playersSwordpAttack4;
+                    break;
+                default:
+                    currentPlayerImage = playersSwordpAttack1; // Set a default image
+                    break;
+            }
+			// Check the direction the player is facing
+		if (player.directionR) {
+			// Draw the image normally (no flipping) if facing right
+			ctx.drawImage(
+				currentPlayerImage,
+				-10,
+				-22,
+				20,
+				44
+			);
+		} else {
+			// Flip the image horizontally using scale if facing left
+			ctx.scale(-1, 1);
+			ctx.drawImage(
+				currentPlayerImage,
+				-10,
+				-22,
+				20,
+				44
+			);
+		}
+			
+		
+			ctx.restore();
     }
 
     drawTigerAttack(tiger){
