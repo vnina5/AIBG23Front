@@ -15,8 +15,15 @@ export class Character{
         this.difX = 0;
 		this.difY = 0;
 		this.coefXY = 1;
-		this.directionR;
-		this.directionL;
+		if(this.id == 1 || this.id == 3){
+			this.directionR = true;
+			this.directionL = false;
+		}else{
+			this.directionR = false;
+			this.directionL = true;
+		}
+		
+		
 		this.moved = true;
 
 		this.name = Player.name;
@@ -52,7 +59,7 @@ export class Character{
 		// Prethodni potez:
 		var [playerX, playerY] = convertCoordinates(Player.r, Player.q);
 					
-	
+	console.log("Usao u Update\n");
 // Slucaj kada se pomeri:
 	if( Player.q != this.q || Player.r != this.r){
 		this.moved = false;
@@ -90,6 +97,7 @@ export class Character{
 			this.directionL = false;	
 			}
 		}
+		console.log("Usao");
 		// Ugao za rotaciju:
 		// this.difAngle = this.angle;
 		// this.angle = find_angle(this.prevR, this.prevQ, this.r, this.q);	

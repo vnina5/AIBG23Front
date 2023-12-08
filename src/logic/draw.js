@@ -5,6 +5,12 @@ import PlayersURL from "../../gif/Players.png";
 // import MapBaseURL from "../../gif/MapBase.png";
 // import FullTileEntitiesURL from "../../gif/Tiles.png";
 
+import Players1URL from "../../gif/Player1/PlayerIdle1.png";
+import Players2URL from "../../gif/Player2/PlayerIdle2.png";
+import Players3URL from "../../gif/Player3/PlayerIdle3.png";
+import Players4URL from "../../gif/Player4/PlayerIdleR4.png";
+
+
 import MapFrameURL from "../../gif/mapFrame.png";
 import TileBorderURL from "../../gif/tileBorder.png"
 
@@ -48,7 +54,15 @@ import CLiffURL from "../../gif/cliff.svg";
 
 
 // Slike =====================================================================================
-let players = new Image();	players.src = PlayersURL;
+let players1 = new Image();	
+let players2 = new Image();	
+let players3 = new Image();	
+let players4 = new Image();	
+
+players1.src = Players1URL;
+players2.src = Players2URL;
+players3.src = Players3URL;
+players4.src = Players4URL;
 
 let mapFrame = new Image(); mapFrame.src = MapFrameURL;
 let tileBorder = new Image(); tileBorder.src = TileBorderURL;
@@ -77,7 +91,7 @@ let tiger1 = new Image(); tiger1.src = Tiger1URL;
 let tiger2 = new Image(); tiger2.src = Tiger2URL;
 let stone = new Image(); stone.src = StoneURL;
 let fire1 = new Image(); fire1.src = Fire1URL;
-let fire2 = new Image(); fire2.src = Fire2URL;
+//let fire2 = new Image(); fire2.src = Fire2URL;
 
 let closedChest = new Image(); closedChest.src = ClosedChestURL;
 let openedChest = new Image(); openedChest.src = OpenedChestURL;
@@ -153,33 +167,106 @@ export class Draw {
 
     // TODO: implementirati promene, za pocetak sam samo kopirala
 	// napad ovde
-    drawRotatedPlayer(player){
+	drawRotatedPlayer(player) {
+		if(player.moved == false){
+			this.movePlayer(player);
+		}else{
+			ctx.save();
+		ctx.translate(player.x + 22, player.y + 22);
+		ctx.rotate(player.angle * Math.PI / 180);
+	
+		let currentPlayerImage;
+		switch (player.index + 1) {
+			case 1:
+				currentPlayerImage = players1;
+				break;
+			case 2:
+				currentPlayerImage = players2;
+				break;
+			case 3:
+				currentPlayerImage = players3;
+				break;
+			case 4:
+				currentPlayerImage = players4;
+				break;
+			default:
+				currentPlayerImage = players1; // Set a default image
+				break;
+		}
+	
+		// Check the direction the player is facing
+		if (player.directionR) {
+			// Draw the image normally (no flipping) if facing right
+			ctx.drawImage(
+				currentPlayerImage,
+				-10,
+				-22,
+				20,
+				44
+			);
+		} else {
+			// Flip the image horizontally using scale if facing left
+			ctx.scale(-1, 1);
+			ctx.drawImage(
+				currentPlayerImage,
+				-10,
+				-22,
+				20,
+				44
+			);
+		}
+	
+		ctx.restore();
+		}
+
+		
+	}
+   /* drawRotatedPlayer(player){
         
-		if(player.rotated == false){
+		if(false){
 			this.rotatePlayer(player);
 		}		
 		else if(player.moved == false){
 			this.movePlayer(player);
 		} else{
-
+			
 			ctx.save();
 			ctx.translate(player.x+22,player.y+22);
 			ctx.rotate(player.angle*Math.PI/180);
+			
+			let currentPlayerImage;
+			switch (player.index+1) {
+                case 1:
+                    currentPlayerImage = players1;
+                    break;
+                case 2:
+                    currentPlayerImage = players2;
+                    break;
+                case 3:
+                    currentPlayerImage = players3;
+                    break;
+                case 4:
+                    currentPlayerImage = players4;
+                    break;
+                default:
+                    currentPlayerImage = players1; // Set a default image
+                    break;
+            }
 			ctx.drawImage(
-				players,		// what image
-				sPlayerW*player.index, //source image start crop
+				currentPlayerImage,		// what image
+				///*sPlayerW, //source image start crop
 				0,				// source image start crop
 				sPlayerW,		//source image width crop
 				sPlayerW,       // source image 
+				-10,
 				-22,
-				-22,
-				44,
+				20,
 				44
 			)		
 			ctx.restore();	
 
 		}
-    }
+    }*/
 
     rotatePlayer(player){
         ctx.save();
@@ -204,20 +291,48 @@ export class Draw {
         ctx.save();
 		ctx.translate(player.x - player.difX+22, player.y - player.difY+22);
 			ctx.rotate(player.angle*Math.PI/180);
+			let currentPlayerImage;
+			switch (player.index+1) {
+                case 1:
+                    currentPlayerImage = players1;
+                    break;
+                case 2:
+                    currentPlayerImage = players2;
+                    break;
+                case 3:
+                    currentPlayerImage = players3;
+                    break;
+                case 4:
+                    currentPlayerImage = players4;
+                    break;
+                default:
+                    currentPlayerImage = players1; // Set a default image
+                    break;
+            }
+			// Check the direction the player is facing
+		if (player.directionR) {
+			// Draw the image normally (no flipping) if facing right
 			ctx.drawImage(
-				players,		// what image
-				sPlayerW*player.index, //source image start crop
-				0,				// source image start crop
-				sPlayerW,		//source image width crop
-				sPlayerW,       // source image 
+				currentPlayerImage,
+				-10,
 				-22,
-				-22,
-				44,
+				20,
 				44
-			)
+			);
+		} else {
+			// Flip the image horizontally using scale if facing left
+			ctx.scale(-1, 1);
+			ctx.drawImage(
+				currentPlayerImage,
+				-10,
+				-22,
+				20,
+				44
+			);
+		}
 		
 		ctx.restore();	
-		calculateDifXY(player);
+		//calculateDifXY(player);
     }
 
 	// async function drawRipPlayer(player){
@@ -304,8 +419,8 @@ export class Draw {
 	drawMapFrame(){
 		ctx.drawImage(
 			mapFrame,
-			0,
-			0
+			-3,
+			-6
 		)
 
 	}
