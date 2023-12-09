@@ -252,7 +252,11 @@ export class Game {
     //     this.drawInstance.drawRotatedTiger(this.tigers[i]);
     //   }
     // }
-
+    if(this.playerAttack != null){
+      
+			this.drawInstance.drawWhipAttack(this.players[this.playerAttack.playerIdx -1]);
+      this.drawInstance.drawSwordAttack(this.players[this.playerAttack.playerIdx -1]);
+		}
     // Crtanje player-a:
     for (let i = 0; i < 4; i++) {
       if (this.players[i] != null) {
