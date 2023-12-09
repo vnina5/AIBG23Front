@@ -41,7 +41,7 @@ import Tiger2URL from "../../gif/tiger2.png";
 
 import StoneURL from "../../gif/stone.svg";
 
-import Fire1URL from "../../gif/fire1.png";
+import Fire1URL from "../../gif/fire11.png";
 import Fire2URL from "../../gif/fire2.png";
 
 import SkullURL from "../../gif/skull.png";
@@ -125,6 +125,7 @@ const allI = { // uzima delovi 1, drugi red kako to zna pitate se? ctrl f =
 	STONE : { index: 3 },
 	LEAVES : { index: 4 },
 	CLIFF : { index: 5 },
+	TIGER : { index: 6 },
 };
 // TODO: NEDOSTAJE NAM CLIF SLIKA
 
@@ -347,29 +348,24 @@ export class Draw {
 
     // isto kao i player
     drawRotatedTiger(tiger){
+		var [x,y] = convertCoordinates(tiger.r, tiger.q);
 		 
-		if(tiger.rotated == false){
-			this.rotateTiger(tiger);
-		}		
-		else if(tiger.moved == false){
-			this.moveTiger(tiger);
-		} else{
-			ctx.save();
-			ctx.translate(tiger.x+22,tiger.y+22);
-			ctx.rotate(tiger.angle*Math.PI/180);
+		// if(tiger.rotated == false){
+		// 	this.rotateTiger(tiger);
+		// }		
+		// else if(tiger.moved == false){
+		// 	this.moveTiger(tiger);
+		// } else{
+		// 	ctx.save();
+		// 	ctx.translate(tiger.x+22,tiger.y+22);
+		// 	ctx.rotate(tiger.angle*Math.PI/180);
 			ctx.drawImage(
 				tiger1,		// what image
-				0, //source image start crop				// proveriti
-				0,				// source image start crop
-				stigerW,		//source image width crop
-				stigerW,       // source image 
-				-22,
-				-22,
-				44,
-				44
+				x,
+				y
 			)		
-			ctx.restore();	
-		}
+			//ctx.restore();	
+		//}
     }
 
     rotateTiger(tiger){
@@ -422,17 +418,17 @@ export class Draw {
 
 		ctx.drawImage(
 			mapFrame,
-			-4,
+			-3,
 			-6
 		)
 		ctx.drawImage(
 			mapFrame,
-			-4,
+			-3,
 			-6
 		)
 		ctx.drawImage(
 			mapFrame,
-			-4,
+			-3,
 			-6
 		)
 
@@ -469,19 +465,20 @@ export class Draw {
 		var entityType;
 
         // crtamo sve osim praznih, lobanja, tigrova
-        if(!(entity.type === 'NONE' || entity.type === 'SKULL' || entity.type === 'TIGER')){	
+		// || entity.type === 'TIGER'
+        if(!(entity.type === 'NONE' || entity.type === 'SKULL')){	
 
             // prilagodjavanje crtanju drveca	
             if(entity.type === 'TREES'){
 				this.drawTileBorder(x,y);	
 
-                if(entity.health > 300){
+                if(entity.health > 400){
 					entityType = allI['FULLTREE'];
                 }
-                if(entity.health > 150 && entity.health <= 300){
+                if(entity.health > 200 && entity.health <= 400){
                     entityType = allI['HALFTREE'];
                 }
-                if(entity.health <= 150 ){
+                if(entity.health <= 200 ){
                     entityType = allI['STUMPTREE'];
                 }
             }
@@ -569,19 +566,13 @@ export class Draw {
     // izmeniti?
 	// napraviti da pocrveni igrac i napraviti vatrice
     drawAttackedTile(r,q){
-		var [x,y] = convertCoordinates(r, q);
+		var [x,y] = convertCoordinates(tile.r, tile.q);
 		
 		//console.log(x,y);
 		ctx.drawImage(
         	fire1,
-        	0,
-			44,
-			44,
-			44,
 			x,
-			y,
-			44,
-			44
+			y
     	); 
 	}
 
@@ -620,9 +611,9 @@ export class Draw {
     // proslo godisnji kod za bossa, mozda ce posluziti
     // proslediti koordinate napada?
     drawStoneAttack(stone){
-		length = stone.attackedTiles.size()
+		length = stone.attackedTiles.length
 		for (i = 0; i < length; i++){
-			this.drawAttackedTile(stone.attackedTiles[i]);
+			this.drawAttackedTile(stone.attackedTiles[i].r, stone.attackedTiles[i].q);
 		}
 		// attackedTiles
 		// var [endX, endY] = convertCoordinates(endR, endQ);	
@@ -634,8 +625,8 @@ export class Draw {
 		// ctx.stroke();
     }
 
-	drawFire(r,q){
-		// var [x,y] = convertCoordinates(tile.r, tile.q);
+	drawFire(r, q){
+		var [x,y] = convertCoordinates(tile.r, tile.q);
 		ctx.drawImage(
 			fire1,
 			x,

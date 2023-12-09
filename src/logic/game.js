@@ -1,6 +1,7 @@
 //Uploadovanje slika iz gif-a:
 import { Draw } from "./draw";
 import { Character } from "./character";
+import { TigerCharacter } from "./tiger";
 import { API_ROOT } from "../configuration";
 import { TurnCountdown } from "./timer";
 import { forEach } from "lodash";
@@ -66,6 +67,25 @@ export class Game {
     this.skullWin = game.skullWin;
     this.turn = new TurnCountdown(this.turn, this.skullWin);
     this.playerAttack = playerAttack;
+
+    // Ubacujemo tigrove:
+    // const Tiger1 = game.tigers[10];
+    // const Tiger2 = game.tigers[11];
+    // if (this.tigers.length) {
+    //   if (Tiger1 == null) {
+    //     this.tigers[10] = null;
+    //   } else this.tigers[0].updateTiger(Tiger1);
+
+    //   if (Tiger2 == null) {
+    //     this.tigers[11] = null;
+    //   } else this.tigers[11].updateTiger(Tiger2);
+    // } else {
+    //   this.tigers = [
+    //     new TigerCharacter(this.ctx, Tiger1),
+    //     new TigerCharacter(this.ctx, Tiger2),
+    //   ];
+    // }
+
     // Ubacujemo igrace:
     const Player1 = game.player1;
     const Player2 = game.player2;
@@ -216,11 +236,11 @@ export class Game {
     this.drawInstance.drawSkull();
 
     // Crtanje tigra-a:   **koliko ima tigrova (2)
-    // for (let i = 10; i < 12; i++) {
-    //   if (this.tigers[i] != null) {
-    //     this.drawInstance.drawRotatedTiger(this.tigers[i]);
-    //   }
-    // }
+    for (let i = 10; i < 12; i++) {
+      if (this.tigers[i] && this.tigers[i].alive) {
+        this.drawInstance.drawRotatedTiger(this.tigers[i]);
+      }
+    }
 
     // Crtanje player-a:
     for (let i = 0; i < 4; i++) {
@@ -243,9 +263,22 @@ export class Game {
     //   this.drawInstance.drawStoneAttack(element);
     // });
 
-    // for (let i = 0; i < 2; i++) {                    // za napad
-    //   this.drawInstance.drawStoneAttack(this.stones[i]);
+    // for (let i = 1; i < 3; i++) {                    // za napad
+    //   // if (this.stones[i].attackedTiles != null){
+    //   //   this.stones[i].attackedTiles.forEach((q,r,tileType,entity) => {
+    //   //     this.drawInstance.drawAttackedTile(r,q);
+    //   //   });
+    //   // }
+    //   for (let j = 0; j < this.stones[i].attackedTiles.length; j++) {
+    //     this.drawInstance.drawAttackedTile(this.stones[i].attackedTiles[j].r, this.stones[i].attackedTiles[j].q);
+    //   }
+        
+      // this.drawInstance.drawStoneAttack(this.stones[i]);
+
+    //   // this.drawInstance.drawStoneAttack(this.stones[i]);
     // }
+
+  
 
     if (this.shouldDraw || this.firstRender)
       requestAnimationFrame(this.draw.bind(this));
