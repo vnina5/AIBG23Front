@@ -224,6 +224,17 @@ export class Game {
     if (this.ctx === null) {
       return;
     }
+    for (let i = 1; i < 3; i++) {                    // za napad
+      // console.log("usao u prvi for");
+      // console.log("attacked tiles", this.stones, i, this.stones[i].attackedTiles.length)
+      for (let j = 0; j < this.stones[i].attackedTiles.length; j++) {
+        // console.log("usao u drugi for");
+
+        this.drawInstance.drawAttackedTile(this.stones[i].attackedTiles[j].r, this.stones[i].attackedTiles[j].q);
+        // console.log(this.stones[i].attackedTiles[j].r, this.stones[i].attackedTiles[j].q);
+      }
+
+    }
     // Crtanje MapBase-a:
 
     this.drawInstance.drawMapFrame();
@@ -236,11 +247,11 @@ export class Game {
     this.drawInstance.drawSkull();
 
     // Crtanje tigra-a:   **koliko ima tigrova (2)
-    for (let i = 10; i < 12; i++) {
-      if (this.tigers[i] && this.tigers[i].alive) {
-        this.drawInstance.drawRotatedTiger(this.tigers[i]);
-      }
-    }
+    // for (let i = 10; i < 12; i++) {
+    //   if (this.tigers[i] && this.tigers[i].alive) {
+    //     this.drawInstance.drawRotatedTiger(this.tigers[i]);
+    //   }
+    // }
 
     // Crtanje player-a:
     for (let i = 0; i < 4; i++) {
@@ -263,20 +274,7 @@ export class Game {
     //   this.drawInstance.drawStoneAttack(element);
     // });
 
-    // for (let i = 1; i < 3; i++) {                    // za napad
-    //   // if (this.stones[i].attackedTiles != null){
-    //   //   this.stones[i].attackedTiles.forEach((q,r,tileType,entity) => {
-    //   //     this.drawInstance.drawAttackedTile(r,q);
-    //   //   });
-    //   // }
-    //   for (let j = 0; j < this.stones[i].attackedTiles.length; j++) {
-    //     this.drawInstance.drawAttackedTile(this.stones[i].attackedTiles[j].r, this.stones[i].attackedTiles[j].q);
-    //   }
-        
-      // this.drawInstance.drawStoneAttack(this.stones[i]);
 
-    //   // this.drawInstance.drawStoneAttack(this.stones[i]);
-    // }
 
   
 

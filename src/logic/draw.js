@@ -125,7 +125,7 @@ const allI = { // uzima delovi 1, drugi red kako to zna pitate se? ctrl f =
 	STONE : { index: 3 },
 	LEAVES : { index: 4 },
 	CLIFF : { index: 5 },
-	TIGER : { index: 6 },
+	//TIGER : { index: 6 },
 };
 // TODO: NEDOSTAJE NAM CLIF SLIKA
 
@@ -466,7 +466,7 @@ export class Draw {
 
         // crtamo sve osim praznih, lobanja, tigrova
 		// || entity.type === 'TIGER'
-        if(!(entity.type === 'NONE' || entity.type === 'SKULL')){	
+        if(!(entity.type === 'NONE' || entity.type === 'SKULL' || entity.type === 'TIGER')){	
 
             // prilagodjavanje crtanju drveca	
             if(entity.type === 'TREES'){
@@ -566,7 +566,7 @@ export class Draw {
     // izmeniti?
 	// napraviti da pocrveni igrac i napraviti vatrice
     drawAttackedTile(r,q){
-		var [x,y] = convertCoordinates(tile.r, tile.q);
+		var [x,y] = convertCoordinates(r, q);
 		
 		//console.log(x,y);
 		ctx.drawImage(
@@ -625,14 +625,14 @@ export class Draw {
 		// ctx.stroke();
     }
 
-	drawFire(r, q){
-		var [x,y] = convertCoordinates(tile.r, tile.q);
-		ctx.drawImage(
-			fire1,
-			x,
-			y
-		)
-	}
+	// drawFire(r, q){
+	// 	var [x,y] = convertCoordinates(tile.r, tile.q);
+	// 	ctx.drawImage(
+	// 		fire1,
+	// 		x,
+	// 		y
+	// 	)
+	// }
 
 	// drawStone(stoneTile){
 	// 	var [x,y] = convertCoordinates(0, -8);
