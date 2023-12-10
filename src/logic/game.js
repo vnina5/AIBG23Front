@@ -46,6 +46,8 @@ export class Game {
           // var attacks = JSON.parse(result.attacks);
           this.update(game, playerAttack); // this.update(game, turn, playerAttack);
           requestAnimationFrame(this.draw.bind(this)); // bind vraca funkciju draw klase game, a prosledjuje joj Game
+          console.log(game);
+          console.log('Refresh');
         },
         error: (error) => {},
       });
@@ -55,6 +57,10 @@ export class Game {
   // Kupljenje podataka iz GameState-a:
   update(game, playerAttack) {
     //      update(game, turn, playerAttack) {
+      console.log('game; ' );
+      console.log(game);
+      console.log('playerattack; ');
+      console.log(playerAttack);
 
     //Kupimo mapu:
     this.map = game.map.tiles;
@@ -71,31 +77,45 @@ export class Game {
     const Player2 = game.player2;
     const Player3 = game.player3;
     const Player4 = game.player4;
-    if (this.players.length) {
-      if (Player1 == null) {
+    if (this.players.length > 1) {
+      if (Player1 == null && game.gameTurn!==5000 ) {
         this.players[0] = null;
       } else this.players[0].updatePlayer(Player1, playerAttack);
 
-      if (Player2 == null) {
+      if (Player2 == null && game.gameTurn!==5000) {
         this.players[1] = null;
       } else this.players[1].updatePlayer(Player2, playerAttack);
 
-      if (Player3 == null) {
+      if (Player3 == null && game.gameTurn!==5000) {
         this.players[2] = null;
-      }
+      } else
       this.players[2].updatePlayer(Player3, playerAttack);
 
-      if (Player4 == null) {
+      if (Player4 == null && game.gameTurn!==5000) {
         this.players[3] = null;
       } else this.players[3].updatePlayer(Player4, playerAttack);
     } else {
-      this.players = [
-        new Character(this.ctx, Player1),
-        new Character(this.ctx, Player2),
-        new Character(this.ctx, Player3),
-        new Character(this.ctx, Player4),
-      ];
+      let potentialPlayers = [];
+      if(Player1 !== null)
+        potentialPlayers.push(Player1);
+        if(Player2 !== null)
+        potentialPlayers.push(Player2);
+        if(Player3 !== null)
+        potentialPlayers.push(Player3);
+        if(Player4 !== null)
+        potentialPlayers.push(Player4);
+
+      this.players = potentialPlayers
+        .filter(player => player.playerIdx !== null)
+        .map(player => new Character(this.ctx, player));
+
     }
+    
+    console.log('game kraj; ' );
+    console.log(game);
+    console.log('playerattack kraj; ');
+    console.log(playerAttack);
+
     //scoreboard
     for (let i = 0; i < 4; i++) {
       let p = 0;
@@ -198,6 +218,8 @@ export class Game {
       document.getElementById(`rd2`).classList.remove("visibility");
       document.getElementById(`rd3`).classList.remove("visibility");
     }
+
+
   }
   // Iscrtavanje svih elemenata:
   draw() {

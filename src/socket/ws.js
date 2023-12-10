@@ -12,10 +12,11 @@ export class WebsocketHandler {
         const data = JSON.parse(message.data);
         const gameState = JSON.parse(data.gameState);
         //nemamo time
-        const time = JSON.parse(data.time); 
+       // const time = JSON.parse(data.time); 
         const playerAttack = JSON.parse(data.playerAttack);
         //nemamo time
-        this.game.update(gameState, time, playerAttack);
+      //  this.game.update(gameState, time, playerAttack);
+        this.game.update(gameState, playerAttack);
         // if (data.winner !== null) {
         //     this.game.showWinner(data.winner);
         // }
