@@ -46,12 +46,13 @@ export class Character{
     updatePlayer(Player, playerAttack){
 		 
 		// Ovo uvek update-uje: 
-        this.level  = Player.level;
+        this.scoreLevel  = Player.scoreLevel;
 		this.health = Player.health;
-		this.power  = Player.power;
+        this.skull = Player.skull;
+		this.attackPower  = Player.attackPower;
 		this.kills  = Player.kills;
 		this.score = Player.score;
-		this.skull = Player.skull;
+		this.sword = Player.sword;
 		this.setInfoBox();	
 		this.attackedQ =null;
 			this.attackedR = null;
