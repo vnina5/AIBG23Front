@@ -1,25 +1,33 @@
 export class TurnCountdown{
 
-    constructor(turn, skullWIn){
+  constructor(turn, skullWin, players){
 
-      this.updateCountdown(turn);
-      this.updateSkullWin(skullWIn);
-    }
-    
-    updateCountdown(turn){
-      let countdownEl = document.getElementById('countdown'); 
-      countdownEl.innerHTML = `${turn}`;
+    this.updateCountdown(turn);
+    this.updateSkullWin(skullWin);
+    this.updateNumOfPlayers(players, turn);
+  }
+  
+  updateCountdown(turn){
+    let countdownEl = document.getElementById('countdown'); 
+    countdownEl.innerHTML = `${turn}`;
 
-      if(turn == 0){
-        popup.classList.add("open-popup");
-      }
+    if(turn == 0){
+      popup.classList.add("open-popup");
     }
+  }
 
-    updateSkullWin(skullWIn) {
-      if(skullWIn) {
-        popup.classList.add("open-popup");
-      }
+  updateSkullWin(skullWin) {
+    if(skullWin) {
+      popup.classList.add("open-popup");
     }
+  }
+
+  updateNumOfPlayers(players, turn) {
+    if(players.length <= 1 && turn != 5000) {
+      popup.classList.add("open-popup");
+    }
+  }
+
 
 }
 

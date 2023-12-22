@@ -58,7 +58,7 @@ import Tiger2URL from "../../gif/tiger2.png";
 
 import StoneURL from "../../gif/stone.svg";
 
-import Fire1URL from "../../gif/fire11.png";
+import Fire1URL from "../../gif/fire.png";
 import Fire2URL from "../../gif/fire2.png";
 
 import SkullURL from "../../gif/skull.png";
@@ -652,8 +652,8 @@ export class Draw {
 		//console.log(x,y);
 		ctx.drawImage(
         	fire1,
-			x,
-			y
+			x+10,
+			y+10
     	); 
 	}
 

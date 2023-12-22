@@ -71,7 +71,7 @@ export class Game {
     // this.attackedTiles = game.stone.attackedTiles;
     this.turn = game.turn;
     this.skullWin = game.skullWin;
-    this.turn = new TurnCountdown(this.turn, this.skullWin);
+    this.turn = new TurnCountdown(this.turn, this.skullWin, this.players);
     this.playerAttack = playerAttack;
 
     // Ubacujemo tigrove:

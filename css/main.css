@@ -196,18 +196,18 @@ td.name{
     font-size: 10px;
 }  */
 .popup table{
-    background: rgb(6,116,108, 30%);
+    background: rgb(6,116,108, 70%);
     width: 44vw;
     height: 60vh;
     border-radius: 12px;
 }
 th{
-    background: rgba(0, 49, 67, 0.4);
+    background: rgba(0, 49, 67, 0.6);
     height: 40px;
     text-shadow: 0 0 10px blue;
 }
 .popup table tr:nth-child(odd){
-    background-color: rgb(6,116,108, 30%);
+    background-color: rgb(6,116,108, 50%);
 }
 .scoreboard td{
     text-shadow: 0 0 10px blue;
